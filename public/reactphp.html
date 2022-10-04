@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>PHP III Demos</title>
+<meta name="generator" content="Geany 1.36" />
+<style>
+.border_whatever {
+    border: thin solid black;
+}
+.dims {
+    width: 100%;
+    height: 350px;
+}
+a {
+    cursor: pointer;
+}
+</style>
+</head>
+<body>
+<!-- To run the demo, start a PHP web server instance from the project root: "php -S localhost:8888 -t public" -->
+<!-- To run the ReactPHP demo, start a ReactPHP instance from the project root: "php public/reactphp.php" -->
+<a href="/index.php">Normal PHP</a>
+<table width="80%" border=1>
+<tr>
+    <td width="50%">
+    <a name="ntp" id="ntp">NTP</a>
+    <hr />
+    <div id="A" class="dims"></div>
+    </td>
+    <td rowspan=3 valign="top" width="50%">
+    <a name="weather" id="weather">Weather</a>
+    <hr />
+    <div id="D" class="dims"></div>
+    </td>
+</tr>
+<tr>
+    <td width="50%">
+    <a name="ipsum" id="ipsum">Ipsum</a>
+    <hr />
+    <div id="B" class="dims"></div>
+    </td>
+</tr>
+<tr>
+    <td width="50%">
+    <a name="prime" id="prime">Prime</a>
+    <hr />
+    <div id="C" class="dims"></div>
+    </td>
+</tr>
+</table>
+<!-- load jQuery -->
+<script language="javascript" src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
+<!-- On button click, make AJAX request -->
+<script>
+$(document).ready(function () {
+    $('#ntp').click(function () { test(); });
+    $('#ipsum').click(function () { test(); });
+    $('#prime').click(function () { test(); });
+    $('#weather').click(function () { test(); });
+});
+function test() {
+    $.ajax({
+        url: 'http://localhost:8080?action=ntp',
+        dataType : 'html',
+        success: function(data) {
+            $('#A').html(data);
+        }
+    });
+    $.ajax({
+        url: '?http://localhost:8080action=ipsum',
+        dataType : 'html',
+        success: function(data) {
+            $('#B').html(data);
+        }
+    });
+    $.ajax({
+        url: '?http://localhost:8080action=prime',
+        dataType : 'html',
+        success: function(data) {
+            $('#C').html(data);
+        }
+    });
+    $.ajax({
+        url: '?http://localhost:8080action=weather',
+        dataType : 'html',
+        success: function(data) {
+            $('#D').html(data);
+        }
+    });
+}
+</script>
+</body>
+</html>

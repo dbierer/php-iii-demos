@@ -82,6 +82,8 @@ a {
 </style>
 </head>
 <body>
+<!-- To run the demo, start a PHP web server instance from the project root: "php -S localhost:8888 -t public" -->
+<a href="reactphp.html">ReactPHP</a>
 <table width="80%" border=1>
 <tr>
     <td width="50%">

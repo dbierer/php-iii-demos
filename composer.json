@@ -1,7 +1,8 @@
 {
     "require": {
         "bt51/ntp": "dev-master",
-        "react/async": "*"
+        "react/async": "*",
+        "react/http": "^1.8.0"
     },
     "autoload": {
         "psr-4": {
