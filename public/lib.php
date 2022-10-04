@@ -1,22 +1,19 @@
 <?php
-require __DIR__ . '/../vendor/autoload.php';
+require_once __DIR__ . '/../vendor/autoload.php';
 use App\Ntp\Client;
 use App\Lorem\Ipsum;
 use App\Number\Prime;
 use App\Weather\Forecast;
 use App\Geonames\{Random,Build};
-use React\Promise\Promise;
-
-// init vars
-$start  = microtime(TRUE);
 
 // NTP request
 function ntp()
 {
     $client = new Client();
+    $error  = [];
     $output = "NTP Time:\n";
     $output .= var_export($client->getTime($error), TRUE);
-    return $output;
+    return $output . PHP_EOL;
 }
 function ipsum()
 {
@@ -24,7 +21,7 @@ function ipsum()
     $contents = Ipsum::getHtml();
     preg_match_all('!<p>(.*?)</p>!', $contents, $matches);
     $output .= $matches[1][0] ?? 'Unknown';
-    return $output;
+    return $output . PHP_EOL;
 }
 function prime()
 {
@@ -33,7 +30,7 @@ function prime()
     $end   = 9999;
     $primes = Prime::generate($start, $end);
     foreach ($primes as $number) $output .= $number . ' ';
-    return $output;
+    return $output . PHP_EOL;
 }
 function weather()
 {
@@ -60,19 +57,5 @@ function weather()
         $output .= "Weather forecast for $name\n";
         $output .= (new Forecast())->getForecast($lat, $lon);
     }
-    return $output;
+    return $output . PHP_EOL;
 }
-
-React\Async\series([
-    function () { return new Promise(function ($resolve) { $resolve(ntp());}); },
-    function () { return new Promise(function ($resolve) { $resolve(ipsum());}); },
-    function () { return new Promise(function ($resolve) { $resolve(prime());}); },
-    function () { return new Promise(function ($resolve) { $resolve(weather());}); },
-])->then(function (array $results) {
-    foreach ($results as $result) {
-        var_dump($result);
-    }
-}, function (Exception $e) {
-    echo 'Error: ' . $e->getMessage() . PHP_EOL;
-});
-
