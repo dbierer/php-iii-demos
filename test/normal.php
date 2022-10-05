@@ -1,6 +1,5 @@
 <?php
 require __DIR__ . '/lib.php';
-use Swoole\Coroutine as Co;
 
 $start  = microtime(TRUE);
 echo ntp();
