@@ -14,13 +14,18 @@ Co\run(function()
 
     go(function()
     {
-		// Using Swoole HTTP client instead of `file_get_contents()`
+        // Using Swoole HTTP client instead of `file_get_contents()`
         echo get(Ipsum::API_URL)->getBody();
     });
 
     go(function()
     {
         echo prime();
+    });
+
+    go(function()
+    {
+        echo city();
     });
 
 });

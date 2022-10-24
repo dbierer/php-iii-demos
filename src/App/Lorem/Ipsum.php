@@ -10,7 +10,7 @@ class Ipsum
      * @param array $msg : error messages
      * @return string $ipsum : returns lorem ipsum as HTML string
      */
-    public static function getHtml(array &$msg = []) : string
+    public function __invoke(array &$msg = []) : string
     {
         return file_get_contents(self::API_URL);
     }

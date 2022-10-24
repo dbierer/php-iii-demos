@@ -1,64 +1,21 @@
 <?php
-require __DIR__ . '/../vendor/autoload.php';
-use App\Ntp\Client;
-use App\Lorem\Ipsum;
-use App\Number\Prime;
-use App\Weather\Forecast;
-use App\Geonames\{Random,Build};
+require __DIR__ . '/../src/lib.php';
 // record start time
-$quit   = TRUE;
 $start  = microtime(TRUE);
-$action = $_GET['action'] ?? '';
-switch ($action) {
-    case 'ntp' :
-        // NTP request
-        $error  = [];
-        $client = new Client();
-        echo "NTP Time:\n";
-        var_dump($client->getTime($error));
-        break;
-    case 'ipsum' :
-        echo "Lorem Ipsum:\n";
-        $contents = Ipsum::getHtml();
-        preg_match_all('!<p>(.*?)</p>!', $contents, $matches);
-        echo $matches[1][0] ?? 'Unknown';
-        break;
-    case 'prime' :
-        $start = rand(1,9) * 1000;
-        $end   = $start + 1000;
-        $primes = Prime::generate($start, $end);
-        foreach ($primes as $number) echo $number . ' ';
-        break;
-    case 'weather' :
-        // Pick random city
-        $geonamesFile = __DIR__ . '/../data/' . Random::GEONAMES_FILTERED;
-        if (!file_exists($geonamesFile)) {
-            echo "\nShort Geonames file doesn't exist\n"
-                 . "To build the file, prceed as follows:\n"
-                 . "wget " . Build::GEONAMES_URL . "\n"
-                 . "unzip -o data/" . Build::GEONAMES_SHORT . "\n"
-                 . "App\Geonames\Build::buildShort()\n"
-                 . "App\Geonames\Build::filterByCountry('US', \$src, \$dest)\n";
-            echo "\nYou need to filter by US because the (free) US weather service only provides weather for the USA\n";
-        }
-        $city = Random::pickCity();
-        echo "Random City Info:\n";
-        var_dump($city);
-        // Weather Forecast for Random City
-        if (!empty($city[2])) {
-            $name = $city[2];
-            $lat  = $city[3];
-            $lon  = $city[4];
-            echo "Weather forecast for $name\n";
-            echo (new Forecast())->getForecast($lat, $lon);
-        }
-        break;
-    default :
-        $quit = FALSE;
-}
-if ($quit) {
+$action = $_GET['action'] ?? $argv[1] ?? '';
+$output = match($action) {
+    'ntp'   => ntp(),
+    'ipsum' => ipsum(),
+    'prime' => prime(),
+    'city'  => city(),
+    'weather' => weather(),
+    default => ''
+};
+if (!empty($output)) {
     // report elapsed time
-    echo "\n\n<br />Elapsed Time: " . (microtime(TRUE) - $start) . "\n";
+    $output = "Normal PHP\n" . $output;
+    $output .= "\n\n<br />Elapsed Time: " . (microtime(TRUE) - $start) . "\n";
+    echo $output;
     exit;
 }
 ?>

@@ -13,7 +13,7 @@ class Prime
      * @param int $end   : where to end generation
      * @return Generator
      */
-    public static function generate(int $start = self::START, int $end = self::END) : Generator
+    public function __invoke(int $start = self::START, int $end = self::END) : Generator
     {
         for ($x = $start; $x < $end; $x++)
         {

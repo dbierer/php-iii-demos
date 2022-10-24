@@ -9,16 +9,14 @@ use App\Geonames\{Random,Build};
 // NTP request
 function ntp()
 {
-    $client = new Client();
-    $error  = [];
     $output = "NTP Time:\n";
-    $output .= var_export($client->getTime($error), TRUE);
+    $output .= var_export((new Client())(), TRUE);
     return $output . PHP_EOL;
 }
 function ipsum()
 {
     $output = "Lorem Ipsum:\n";
-    $contents = Ipsum::getHtml();
+    $contents = (new Ipsum())();
     preg_match_all('!<p>(.*?)</p>!', $contents, $matches);
     $output .= $matches[1][0] ?? 'Unknown';
     return $output . PHP_EOL;
@@ -26,29 +24,32 @@ function ipsum()
 function prime()
 {
     $output = '';
-    $start = 9000;
-    $end   = 9999;
-    $primes = Prime::generate($start, $end);
+    $start = $argv[2] ?? 9000;
+    $end   = $argv[3] ?? 9999;
+    $primes = (new Prime())((int) $start, (int) $end);
     foreach ($primes as $number) $output .= $number . ' ';
     return $output . PHP_EOL;
 }
-function weather()
+function city(array &$city = [])
 {
     // Pick random city
     $output = '';
     $geonamesFile = __DIR__ . '/../data/' . Random::GEONAMES_FILTERED;
     if (!file_exists($geonamesFile)) {
-        $output .= "\nShort Geonames file doesn't exist\n"
-             . "To build the file, prceed as follows:\n"
-             . "wget " . Build::GEONAMES_URL . "\n"
-             . "unzip -o data/" . Build::GEONAMES_SHORT . "\n"
-             . "App\Geonames\Build::buildShort()\n"
-             . "App\Geonames\Build::filterByCountry('US', \$src, \$dest)\n";
-        $output .= "\nYou need to filter by US because the (free) US weather service only provides weather for the USA\n";
+        $output .= Random::ERR_GEONAMES;
+    } else {
+        $city = (new Random())();
+        $output .= "Random City Info:\n";
+        $output .= var_export($city, TRUE);
     }
-    $city = Random::pickCity();
-    $output .= "Random City Info:\n";
-    $output .= var_export($city, TRUE);
+    return $output;
+}
+function weather()
+{
+    // Pick random city
+    $output = '';
+    $city   = [];
+    $output .= city($city);
     // Weather Forecast for Random City
     if (!empty($city[2])) {
         $name = $city[2];

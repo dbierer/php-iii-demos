@@ -1,18 +1,20 @@
 <?php
-require_once __DIR__ . '/../vendor/autoload.php';
+spl_autoload_register(function ($class) {
+    require_once __DIR__ . '/' . str_replace('\\', '/', $class) . '.php';
+});
+
 use App\Service\Manager;
 use App\Ntp\Client;
 use App\Lorem\Ipsum;
 use App\Number\Prime;
-use App\Weather\Forecast;
-use App\Geonames\{Random,Build};
+use App\Geonames\Random;
 
 // load services
 $container = new Manager();
 $container->add(new Client(), 'ntp');
-$container->add(function () { return Ipsum::getHtml(); }, 'ipsum');
-$container->add(function ($start, $end) { return Prime::generate($start, $end); }, 'prime');
-$container->add(function () { return Random::pickCity(); }, 'city');
+$container->add(new Ipsum(), 'ipsum');
+$container->add(new Prime(), 'prime');
+$container->add(new Random(), 'city');
 
 // get action from CLI
 $output = '';
@@ -23,7 +25,7 @@ switch ($action) {
         $client = $container->get(Client::class);
         $error  = [];
         $output = "NTP Time:\n";
-        $output .= var_export($client->getTime($error), TRUE);
+        $output .= var_export($client($error), TRUE);
         break;
     case 'ipsum' :
         $output = "Lorem Ipsum:\n";
@@ -42,13 +44,7 @@ switch ($action) {
         $output = '';
         $geonamesFile = __DIR__ . '/../data/' . Random::GEONAMES_FILTERED;
         if (!file_exists($geonamesFile)) {
-            $output .= "\nShort Geonames file doesn't exist\n"
-                 . "To build the file, prceed as follows:\n"
-                 . "wget " . Build::GEONAMES_URL . "\n"
-                 . "unzip -o data/" . Build::GEONAMES_SHORT . "\n"
-                 . "App\Geonames\Build::buildShort()\n"
-                 . "App\Geonames\Build::filterByCountry('US', \$src, \$dest)\n";
-            $output .= "\nYou need to filter by US because the (free) US weather service only provides weather for the USA\n";
+            $output .= Random::ERR_GEONAMES;
         } else {
             $city = $container->get('city')();
             $output .= "Random City Info:\n";

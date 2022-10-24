@@ -14,10 +14,9 @@ class Client
     /**
      * Makes request to NTP server
      *
-     * @param array $msg : error message
-     * @param DateTime $result : result
+     * @return DateTime $result : result
      */
-    public function getTime(array &$msg = []) : DateTime
+    public function getTime() : DateTime
     {
         $svr = self::NTP_SVR[array_rand(self::NTP_SVR)];
         $socket = new Socket($svr . self::NTP_POOL, self::NTP_PORT);
@@ -28,5 +27,9 @@ class Client
     public function getCallback()
     {
         return Closure::fromCallable([$this, 'getTime']);
+    }
+    public function __invoke() : DateTime
+    {
+        return $this->getTime();
     }
 }
