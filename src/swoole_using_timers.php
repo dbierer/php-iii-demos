@@ -5,7 +5,7 @@ use App\Ntp\Client;
 // NTP request
 $client = new Client();
 $callback = function() use ($client) {
-    var_dump($client->getTime(););
+    var_dump($client());
 };
 
 // make an NTP request every 3 seconds

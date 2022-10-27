@@ -8,7 +8,7 @@ Co\run(function () {
     $chan = new Channel(1);
     go(function() use ($chan) {
         // Pick random city
-        $city = Random::pickCity();
+        $city = (new Random())();
         echo "Random City Info:\n";
         $chan->push(['city' => $city]);
     });
