@@ -4,8 +4,9 @@ RUN \
     apk add bash
 RUN \
     echo "Installing PHP + PHP-FPM ..." && \
-    apk add php && \
-    apk add php-fpm
+    apk add php81 && \
+    ln -s /usr/bin/php81 /usr/bin/php && \
+    apk add php81-fpm
 RUN \
     echo "Configuring PHP-FPM to listen to nginx ..." && \
     sed -i 's/listen = 127\.0\.0\.1:9000/listen = 0\.0\.0\.0:9000/g' /etc/php8/php-fpm.d/www.conf && \

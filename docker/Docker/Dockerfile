@@ -4,8 +4,9 @@ RUN \
     apk add bash
 RUN \
     echo "Installing PHP + PHP-FPM ..." && \
-    apk add php && \
-    apk add php-fpm
+    apk add php81 && \
+    ln -s /usr/bin/php81 /usr/bin/php && \
+    apk add php81-fpm
 RUN \
     echo "Installing nginx ..." && \
     apk add nginx && \
