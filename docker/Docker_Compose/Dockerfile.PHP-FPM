@@ -1,0 +1,21 @@
+FROM alpine:latest
+ENV PHP_VER=81
+RUN \
+    echo "Installing basic utils ..." && \
+    apk add bash
+RUN \
+    echo "Installing PHP + PHP-FPM ..." && \
+    apk add php$PHP_VER && \
+    apk add php$PHP_VER-fpm && \
+    mv -f /usr/bin/php /usr/bin/php.old && \
+    ln -s /usr/bin/php$PHP_VER /usr/bin/php
+RUN \
+    echo "Configuring PHP-FPM to listen to nginx ..." && \
+    sed -i 's/listen = 127\.0\.0\.1:9000/listen = 0\.0\.0\.0:9000/g' /etc/php$PHP_VER/php-fpm.d/www.conf && \
+    echo "listen.allowed_clients = 10.20.10.10" >> /etc/php$PHP_VER/php-fpm.d/www.conf
+RUN \
+    echo "Setting up app base directory ..." && \
+    mkdir -p /var/www
+COPY compose.startup.php-fpm.sh /usr/sbin/startup.sh
+RUN chmod +x /usr/sbin/*.sh
+ENTRYPOINT /usr/sbin/startup.sh
