@@ -1,11 +1,14 @@
 FROM alpine:latest
+ENV PHP_VER=81
 RUN \
     echo "Installing basic utils ..." && \
     apk add bash
 RUN \
     echo "Installing PHP + PHP-FPM ..." && \
-    apk add php && \
-    apk add php-fpm
+    apk add php$PHP_VER && \
+    apk add php$PHP_VER-fpm && \
+    mv -f /usr/bin/php /usr/bin/php.old && \
+    ln -s /usr/bin/php$PHP_VER /usr/bin/php
 RUN \
     echo "Installing nginx ..." && \
     apk add nginx && \

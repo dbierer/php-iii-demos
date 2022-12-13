@@ -1,5 +1,5 @@
 #!/bin/bash
-export VER=8
+export VER=81
 # Start the first process
 /usr/sbin/php-fpm$VER
 status=$?

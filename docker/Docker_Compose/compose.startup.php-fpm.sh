@@ -1,5 +1,5 @@
 #!/bin/bash
-export VER=8
+export VER=81
 /usr/sbin/php-fpm$VER
 status=$?
 if [ $status -ne 0 ]; then
