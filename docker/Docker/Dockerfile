@@ -1,5 +1,5 @@
 FROM alpine:latest
-ENV PHP_VER=81
+ENV PHP_VER=82
 RUN \
     echo "Installing basic utils ..." && \
     apk add bash

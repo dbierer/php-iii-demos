@@ -36,7 +36,7 @@ $usage = "\nUSAGE:\n"
 
 // grab CLI args, etc.
 $params  = implode(' ', $argv);
-$php_ini = file('/etc/php.ini');
+$php_ini = file('/etc/php/8.2/cli/php.ini');
 $mode    = $argv[1] ?? 'on';
 
 // disable xdebug extension, otherwise JIT is disabled

@@ -4,7 +4,7 @@
 
 /*
 Make sure OpCache is enabled (should be done already!).
-Look for these settings in the /etc/php.ini file:
+Look for these settings in the /etc/php/8.2/cli/php.ini file:
 zend_extension=opcache
 opcache.enable=1
 opcache.enable_cli=1
