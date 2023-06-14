@@ -7,7 +7,7 @@ RUN \
     echo "Installing PHP + PHP-FPM ..." && \
     apk add php$PHP_VER && \
     apk add php$PHP_VER-fpm && \
-    mv -f /usr/bin/php /usr/bin/php.old && \
+    #mv -f /usr/bin/php /usr/bin/php.old && \
     ln -s /usr/bin/php$PHP_VER /usr/bin/php
 RUN \
     echo "Installing nginx ..." && \
