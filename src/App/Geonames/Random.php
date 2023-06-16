@@ -19,7 +19,7 @@ class Random extends Base
      * ['name' => 'City Name', 'lat' => 'latitude', 'lon' => 'longitude']
      */
     #[App\Geonames\Random\pickCity\return("?array")]
-    public function __invoke() : ?array
+    public function __invoke()
     {
         $skip = rand(0, self::cityCount());
         $geo  = self::getGeo();

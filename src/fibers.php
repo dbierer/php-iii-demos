@@ -3,11 +3,14 @@ require __DIR__ . '/lib.php';
 // record start time
 $start = microtime(TRUE);
 
-$fibers = [
-    new Fiber(function () { echo ntp();   }),
-    new Fiber(function () { echo ipsum(); }),
-    new Fiber(function () { echo prime(); }),
-];
+$fibers = [];
+
+for ($x = 1; $x < 10; $x++) {
+    //new Fiber(function () { echo ntp();   }),
+    $fibers[] = new Fiber(function () { echo ipsum(); });
+    $fibers[] = new Fiber(function () { echo prime(); });
+	$fibers[] = new Fiber(function () { echo city();  });
+}
 
 foreach ($fibers as $func) $func->start();
 

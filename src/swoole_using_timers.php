@@ -9,4 +9,4 @@ $callback = function() use ($client) {
 };
 
 // make an NTP request every 3 seconds
-Swoole\Timer::tick(3000, $callback);
+Swoole\Timer::tick(5000, $callback);
