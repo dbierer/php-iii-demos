@@ -1,7 +1,7 @@
 #!/bin/bash
-export VER=82
+export PHP_VER=82
 # Start the first process
-/usr/sbin/php-fpm$VER
+/usr/sbin/php-fpm$PHP_VER
 status=$?
 if [ $status -ne 0 ]; then
   echo "Failed to start php-fpm: $status"
@@ -17,7 +17,7 @@ if [ $status -ne 0 ]; then
 fi
 echo "Started nginx succesfully"
 while sleep 60; do
-  ps |grep php-fpm$VER |grep -v grep
+  ps |grep php-fpm$PHP_VER |grep -v grep
   PROCESS_1_STATUS=$?
   ps |grep nginx |grep -v grep
   PROCESS_2_STATUS=$?

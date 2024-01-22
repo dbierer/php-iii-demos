@@ -1,5 +1,5 @@
 FROM alpine:latest
-ENV PHP_VER=81
+ENV PHP_VER=82
 RUN \
     echo "Installing basic utils ..." && \
     apk add bash
@@ -7,7 +7,7 @@ RUN \
     echo "Installing PHP + PHP-FPM ..." && \
     apk add php$PHP_VER && \
     apk add php$PHP_VER-fpm && \
-    mv -f /usr/bin/php /usr/bin/php.old && \
+    if [[ -f /usr/bin/php ]]; then mv /usr/bin/php /usr/bin/php.old; fi && \
     ln -s /usr/bin/php$PHP_VER /usr/bin/php
 RUN \
     echo "Configuring PHP-FPM to listen to nginx ..." && \
