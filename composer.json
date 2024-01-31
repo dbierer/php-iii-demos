@@ -3,7 +3,8 @@
         "bt51/ntp": "dev-master",
         "react/async": "*",
         "react/http": "^1.8.0",
-        "psr/container": "*"
+        "psr/container": "*",
+        "psr/http-message": "^1.1"
     },
     "autoload": {
         "psr-4": {
