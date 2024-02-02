@@ -24,8 +24,14 @@ From a terminal window run:
 ```
 curl -X POST \
 	-F status=open \
-	-F amount=88.88 \
+	-F amount=99.99 \
 	-F description="Covid-19 vaccine" \
 	-F customer=1 \
 	http://localhost:9999
+```
+
+## Delete data
+From a terminal window run:
+```
+curl -X DELETE http://localhost:9999?id=12
 ```

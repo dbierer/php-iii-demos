@@ -16,3 +16,7 @@ foreach ($fibers as $func) $func->start();
 
 // report elapsed time
 echo "\nElapsed Time: " . (microtime(TRUE) - $start) . "\n";
+
+// 6.6285440921783
+// 6.5927429199219
+// 6.4565069675446
