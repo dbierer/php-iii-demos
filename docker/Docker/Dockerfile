@@ -8,7 +8,7 @@ RUN \
     apk add php$PHP_VER && \
     apk add php$PHP_VER-fpm && \
     #mv -f /usr/bin/php /usr/bin/php.old && \
-    ln -s /usr/bin/php$PHP_VER /usr/bin/php
+    ln -s -f /usr/bin/php$PHP_VER /usr/bin/php
 RUN \
     echo "Installing nginx ..." && \
     apk add nginx && \

@@ -17,8 +17,10 @@ Co\run(function()
 
 		go(function()
 		{
-			// Using Swoole HTTP client instead of `file_get_contents()`
-			echo get(Ipsum::API_URL)->getBody();
+			// You could also use the Swoole HTTP client instead of `file_get_contents()`
+			// However Swoole would need to be compiled with the `--enable-openssl` flag
+			// echo get(Ipsum::API_URL)->getBody();
+			echo ipsum();
 		});
 		
 		go(function()
